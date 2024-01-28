@@ -43,7 +43,7 @@ export default function Form() {
               placeholder='What should I write about?'
               className='rounded-lg'
             />
-            {/* <SubmitButton /> */}
+            <SubmitButton />
           </form>
         </CardContent>
       </Card>

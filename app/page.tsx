@@ -1,8 +1,10 @@
+import Form from '@/components/Form'
+
 export default function Home() {
   return (
-    <section className='py-24'>
-      <div className='container'>
-        <h1 className='text-3xl font-bold'>Next AI Blogger</h1>
+    <section className='py-28'>
+      <div className='container max-w-3xl'>
+        <Form />
       </div>
     </section>
   )
