@@ -5,12 +5,18 @@ import OpenAI from 'openai'
 import { decode } from 'base64-arraybuffer'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
+import { auth } from '@clerk/nextjs'
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
 export async function createCompletion(prompt: string) {
   if (!prompt) {
     return { error: 'Prompt is required' }
+  }
+
+  const { userId } = auth()
+  if (!userId) {
+    return { error: 'User is not logged in' }
   }
 
   const messages: any = [
@@ -21,7 +27,7 @@ export async function createCompletion(prompt: string) {
   ]
 
   const completion = await openai.chat.completions.create({
-    model: 'gpt-4',
+    model: 'gpt-3.5-turbo',
     messages
   })
 
@@ -58,7 +64,7 @@ export async function createCompletion(prompt: string) {
 
   const { data: blog, error: blogError } = await supabase
     .from('blogs')
-    .insert([{ title: prompt, content, imageUrl, userId: '123' }])
+    .insert([{ title: prompt, content, imageUrl, userId }])
     .select()
 
   if (blogError) {
